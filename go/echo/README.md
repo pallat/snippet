@@ -1,4 +1,4 @@
-# The simple way to use logrus in echo context
+# The simply way to use logrus in echo context
 
 ## The example code
 
