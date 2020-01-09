@@ -18,7 +18,7 @@ func init() {
 }
 
 func main() {
-	router.GET("/", payment.New())
+	router.GET("/", payment.New(payment.Handler))
 
 	go start()
 
