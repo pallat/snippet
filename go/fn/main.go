@@ -2,14 +2,13 @@ package main
 
 import (
 	"context"
-	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	echo "github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
+	"github.com/pallat/snippet/fn/payment"
 )
 
 var router = echo.New()
@@ -19,10 +18,7 @@ func init() {
 }
 
 func main() {
-	router.GET("/", func(c echo.Context) error {
-		time.Sleep(5 * time.Second)
-		return c.JSON(http.StatusOK, "OK")
-	})
+	router.GET("/", payment.New())
 
 	go start()
 
