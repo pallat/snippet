@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
 
 	echo "github.com/labstack/echo/v4"
@@ -36,7 +37,7 @@ func start() {
 
 func shutdown() {
 	quit := make(chan os.Signal)
-	signal.Notify(quit, os.Interrupt)
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
 	<-quit
 
 	if err := router.Shutdown(context.Background()); err != nil {
