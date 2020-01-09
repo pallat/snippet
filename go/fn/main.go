@@ -19,7 +19,7 @@ func init() {
 
 func main() {
 	db := ""
-	router.GET("/", payment.New(payment.Handler, payment.Favorite(db)))
+	router.GET("/", payment.New(payment.Handler, payment.Favorite(db), payment.Pay(payment.NewClient())))
 
 	go start()
 
