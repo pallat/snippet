@@ -6,9 +6,9 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type HandlerFunc func(request) (response, error)
+type HandlerFunc func(request, FavoriteFunc) (response, error)
 
-func New(h HandlerFunc) echo.HandlerFunc {
+func New(h HandlerFunc, fav FavoriteFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var req request
 		err := c.Bind(&req)
@@ -21,7 +21,7 @@ func New(h HandlerFunc) echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, map[string]string{"message": err.Error()})
 		}
 
-		res, err := h(req)
+		res, err := h(req, fav)
 		if err != nil {
 			return c.JSON(500, map[string]string{"message": err.Error()})
 		}
@@ -39,6 +39,10 @@ type response struct {
 	Message string `json:"message"`
 }
 
-func Handler(req request) (response, error) {
-	return response{Message: "ok"}, nil
+func Handler(req request, fav FavoriteFunc) (response, error) {
+	msg, err := fav("ok")
+	if err != nil {
+		return response{}, err
+	}
+	return response{Message: msg}, nil
 }
